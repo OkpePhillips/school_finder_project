@@ -1,6 +1,20 @@
+Register:
 {
 "first_name": "jphn",
 "last_name": "kilkda",
+"email": "none@mail.com",
+"password": "tired@mail.com"
+}
+
+Editing:
+{
+"first_name": "Correct nancy",
+"last_name": "Mwuese",
+"password": "newpassword"
+}
+
+Login:
+{
 "email": "none@mail.com",
 "password": "tired@mail.com"
 }

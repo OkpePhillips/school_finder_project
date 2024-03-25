@@ -1,7 +1,7 @@
 import dataclasses
 import datetime
 import jwt
-from .models import User
+from .models import User, School
 from django.conf import settings
 
 @dataclasses.dataclass
@@ -48,3 +48,47 @@ def create_token(user_id: int) -> str:
     token = jwt.encode(payload, settings.JWT_SECRET, algorithm="HS256")
 
     return token
+
+def edit_user(user: "User", data):
+    user.first_name = data["first_name"]
+    user.last_name = data["last_name"]
+
+    if data["password"] is not None:
+        user.set_password(data["password"])
+
+    user.save()
+
+    return user
+
+@dataclasses.dataclass
+class SchoolDataClass:
+    name: str
+    address: str
+    email: str
+    website: str
+    phone_number: int
+
+    @classmethod
+    def from_instance(cls, school:"School"):
+        return cls(
+            name=school.name,
+            address=school.address,
+            email=school.email,
+            website=school.website,
+            phone_number=school.phone_number
+        )
+
+def create_school(sch:"SchoolDataClass"):
+    instance = School(
+        name=sch.name,
+        address=sch.address,
+        email=sch.email,
+        website=sch.website,
+        phone_number=sch.phone_number
+    )
+    if user_dc.password is not None:
+        instance.set_password(user_dc.password)
+
+    instance.save()
+
+    return UserDataClass.from_instance(instance)

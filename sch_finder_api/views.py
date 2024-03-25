@@ -1,12 +1,12 @@
-from rest_framework import views, response, exceptions, permissions
+from rest_framework import views, response, exceptions, permissions, status
 
-from . import serializer as user_serializer
+from .serializer import UserSerializer, UserEditSerializer
 from . import services, authentication
 
 class RegisterApi(views.APIView):
 
     def post(self, request):
-        serializer = user_serializer.UserSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
@@ -40,9 +40,24 @@ class UserApi(views.APIView):
     def get(self, request):
         user = request.user
 
-        serializer = user_serializer.UserSerializer(user)
+        serializer = UserSerializer(user)
 
         return response.Response(serializer.data)
+    
+    def put(self, request):
+        user = request.user
+        serializer = UserEditSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        updated_user = services.edit_user(user, data)
+        return response.Response({"message": "Profile updated successfully"})
+    
+    def delete(self, request):
+        user = request.user
+        user.delete()
+
+        return response.Response({"message": "user deleted successfully"})
 
 class LogoutApi(views.APIView):
     authentication_classes = (authentication.CustomUserAuthentication, )
@@ -54,3 +69,4 @@ class LogoutApi(views.APIView):
         res.data = {"message": "See you soon!"}
 
         return res
+

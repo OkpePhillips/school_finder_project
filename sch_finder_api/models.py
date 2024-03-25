@@ -48,3 +48,10 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["first_name", "last_name"]
 
     objects = UserManager()
+
+class School(models.Model):
+    name = models.CharField(verbose_name="Name", max_length=255)
+    address = models.CharField(verbose_name="School Address", max_length=1000)
+    email = models.EmailField(verbose_name="Contact Email", max_length=255, unique=True)
+    website = models.CharField(verbose_name="Website url", max_length=255, unique=True)
+    phone_number = models.IntegerField(verbose_name="Phone Number", max_length=60, unique=True)
