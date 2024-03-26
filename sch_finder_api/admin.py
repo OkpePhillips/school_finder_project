@@ -11,3 +11,23 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(models.User, UserAdmin)
 
+
+class SchoolAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "address",
+        "email",
+        "website",
+        "phone_number"
+    )
+admin.site.register(models.School, SchoolAdmin)
+
+class ScholarshipAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "description",
+        "benefit",
+        "requirement",
+        "link"
+    )
+admin.site.register(models.Scholarship, ScholarshipAdmin)

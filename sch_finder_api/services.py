@@ -1,7 +1,7 @@
 import dataclasses
 import datetime
 import jwt
-from .models import User, School
+from .models import User, School, Scholarship
 from django.conf import settings
 
 @dataclasses.dataclass
@@ -86,9 +86,66 @@ def create_school(sch:"SchoolDataClass"):
         website=sch.website,
         phone_number=sch.phone_number
     )
-    if user_dc.password is not None:
-        instance.set_password(user_dc.password)
-
     instance.save()
 
-    return UserDataClass.from_instance(instance)
+    return SchoolDataClass.from_instance(instance)
+
+def update_sch(id, data):
+    try:
+        school = School.objects.get(id=id)
+        school.name = data["name"]
+        school.address = data["address"]
+        school.email = data["email"]
+        school.website = data["website"]
+        school.phone_number = data["phone_number"]
+
+        school.save()
+
+        return school
+    except School.DoesNotExist:
+        return response.Response(status=status.HTTP_404_NOT_FOUND)
+
+@dataclasses.dataclass
+class ScholarshipDataClass:
+    title: str
+    description: str
+    benefit: str
+    requirement: str
+    link: int
+
+    @classmethod
+    def from_instance(cls, ship:"Scholarship"):
+        return cls(
+            title=ship.title,
+            description=ship.description,
+            benefit=ship.benefit,
+            requirement=ship.requirement,
+            link=ship.link
+        )
+
+def create_scholarship(ship:"ScholarshipDataClass"):
+    instance = Scholarship(
+        title=ship.title,
+        description=ship.description,
+        benefit=ship.benefit,
+        requirement=ship.requirement,
+        link=ship.link
+    )
+    instance.save()
+
+    return ScholarshipDataClass.from_instance(instance)
+
+def update_scholarship(id, data):
+    try:
+        schship = Scholarship.objects.get(id=id)
+        schship.title = data["title"]
+        schship.description = data["description"]
+        schship.benefit = data["benefit"]
+        schship.requirement = data["requirement"]
+        schship.link = data["link"]
+
+        schship.save()
+
+        return schship
+    except Scholarship.DoesNotExist:
+        return response.Response(status=status.HTTP_404_NOT_FOUND)
