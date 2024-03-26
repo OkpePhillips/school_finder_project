@@ -1,9 +1,10 @@
 from rest_framework import views, response, exceptions, permissions, status
 
-from .serializer import UserSerializer, UserEditSerializer
+from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer
 from . import services, authentication
+from .models import School, Scholarship
 
-class RegisterApi(views.APIView):
+class RegisterUserApi(views.APIView):
 
     def post(self, request):
         serializer = UserSerializer(data=request.data)
@@ -69,4 +70,76 @@ class LogoutApi(views.APIView):
         res.data = {"message": "See you soon!"}
 
         return res
+
+
+class SchoolApi(views.APIView):
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request):
+        serializer = SchoolSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        serializer.instance = services.create_school(sch=data)
+
+        return response.Response(data=serializer.data)
+
+    def get(self, request):
+        schools = School.objects.all()
+        serializer = SchoolSerializer(schools, many=True)
+
+        return response.Response(serializer.data)
+    
+    def delete(self, request, id):
+        try:
+            school = School.objects.get(id=id)
+        except School.DoesNotExist:
+            return response.Response(status=status.HTTP_404_NOT_FOUND)
+
+        school.delete()
+        return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, id):
+        serializer = EditSchoolSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        sch_update = services.update_sch(id, data)
+        return response.Response({"message": "Successful"})
+
+
+class ScholarshipApi(views.APIView):
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request):
+        serializer = ScholarshipSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        serializer.instance = services.create_scholarship(ship=data)
+
+        return response.Response(data=serializer.data)
+
+    def get(self, request):
+        scholarships = Scholarship.objects.all()
+        serializer = ScholarshipSerializer(scholarships, many=True)
+
+        return response.Response(serializer.data)
+    
+    def delete(self, request, id):
+        try:
+            scholarship = Scholarship.objects.get(id=id)
+        except Scholarship.DoesNotExist:
+            return response.Response(status=status.HTTP_404_NOT_FOUND)
+
+        scholarship.delete()
+        return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, id):
+        serializer = EditScholarshipSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        schship_update = services.update_scholarship(id, data)
+        return response.Response({"message": "Successful"})
 

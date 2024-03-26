@@ -1,9 +1,16 @@
-Register:
+Register User:
 {
 "first_name": "jphn",
 "last_name": "kilkda",
 "email": "none@mail.com",
 "password": "tired@mail.com"
+}
+
+{
+"first_name": "Peter",
+"last_name": "Cook",
+"email": "cucurella@mail.com",
+"password": "thomascook"
 }
 
 Editing:
@@ -18,3 +25,13 @@ Login:
 "email": "none@mail.com",
 "password": "tired@mail.com"
 }
+
+Scholarship:
+
+  {
+    "name": "James Montessori",
+    "address": "Lagos, Nigeria",
+    "email": "mail@unilag.com",
+    "website": "www.unilag.edu.ng",
+    "phone_number": "8122694518"
+  }

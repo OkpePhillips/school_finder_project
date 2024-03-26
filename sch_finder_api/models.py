@@ -50,8 +50,15 @@ class User(AbstractUser):
     objects = UserManager()
 
 class School(models.Model):
-    name = models.CharField(verbose_name="Name", max_length=255)
+    name = models.CharField(verbose_name="Name", max_length=255, unique=True)
     address = models.CharField(verbose_name="School Address", max_length=1000)
-    email = models.EmailField(verbose_name="Contact Email", max_length=255, unique=True)
-    website = models.CharField(verbose_name="Website url", max_length=255, unique=True)
-    phone_number = models.IntegerField(verbose_name="Phone Number", max_length=60, unique=True)
+    email = models.EmailField(verbose_name="Contact Email", max_length=255)
+    website = models.CharField(verbose_name="Website url", max_length=255)
+    phone_number = models.IntegerField(verbose_name="Phone Number")
+
+class Scholarship(models.Model):
+    title = models.CharField(verbose_name="Title", max_length=255, unique=True)
+    description = models.TextField(verbose_name="Description", max_length=3000)
+    benefit = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
+    requirement = models.TextField(verbose_name="Application Requirements", max_length=1000)
+    link = models.CharField(verbose_name="Link to apply", max_length=255)
