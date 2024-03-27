@@ -18,7 +18,6 @@ class UserSerializer(serializers.Serializer):
 class UserEditSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     last_name = serializers.CharField()
-    password = serializers.CharField(write_only=True)
 
 
 class SchoolSerializer(serializers.Serializer):
@@ -60,3 +59,12 @@ class EditScholarshipSerializer(serializers.Serializer):
     benefit = serializers.CharField()
     requirement = serializers.CharField()
     link = serializers.CharField()
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+
+class ResetPasswordEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)

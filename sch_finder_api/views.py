@@ -1,6 +1,6 @@
 from rest_framework import views, response, exceptions, permissions, status
 
-from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer
+from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer
 from . import services, authentication
 from .models import School, Scholarship
 
@@ -143,3 +143,18 @@ class ScholarshipApi(views.APIView):
         schship_update = services.update_scholarship(id, data)
         return response.Response({"message": "Successful"})
 
+class ChangePassword(views.APIView):
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request):
+        user = request.user
+        serializer = ChangePasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = request.user
+        if user.check_password(serializer.data.get('old_password')):
+            user.set_password(serializer.data.get('new_password'))
+            user.save()
+            return response.Response({'message': 'Password changed successfully.'}, status=status.HTTP_200_OK)
+        return response.Response({'error': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
+    

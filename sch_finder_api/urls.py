@@ -8,7 +8,7 @@ urlpatterns = [
     path("me/", views.UserApi.as_view(), name="profile_update"),
     path("me/", views.UserApi.as_view(), name="profile_delete"),
     path("logout/", views.LogoutApi.as_view(), name="logout"),
-    path("school/", views.SchoolApi.as_view(), name="create_sch"),
+    path("schools/", views.SchoolApi.as_view(), name="create_sch"),
     path("schools/", views.SchoolApi.as_view(), name="get_sch"),
     path('schools/<int:id>/', views.SchoolApi.as_view(), name='delete_school'),
     path('schools/<int:id>/', views.SchoolApi.as_view(), name='edit_school'),
@@ -16,5 +16,6 @@ urlpatterns = [
     path("scholarships/", views.ScholarshipApi.as_view(), name="get_scholarship"),
     path("scholarships/<int:id>/", views.ScholarshipApi.as_view(), name="update_scholarship"),
     path("scholarships/", views.ScholarshipApi.as_view(), name="delete_scholarship"),
+    path("change_password/",views.ChangePassword.as_view(), name="change_password"),
 
 ]

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'sch_finder_api',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "sch_finder_api.User"
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS =True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'okpegodwinfather@gmail.com'
+EMAIL_HOST_PASSWORD = 'gusi rpln eecd gbvb'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFUALT_FROM_EMAIL = 'okpegodwinfather@gmail.com'
