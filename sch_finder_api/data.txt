@@ -13,6 +13,14 @@ Register User:
 "password": "thomascook"
 }
 
+{
+"first_name": "Nathan",
+"last_name": "Jordan",
+"email": "kohat69384@shaflyn.com",
+"password": "thomascook"
+changedpassword: "tester1234"
+}
+"pass
 Editing:
 {
 "first_name": "Correct nancy",
@@ -26,6 +34,13 @@ Login:
 "password": "tired@mail.com"
 }
 
+Password change :
+{
+"old_password": "tired@mail.com",
+"new_password": "ChangedPassword1"
+  }
+
+
 Scholarship:
 
   {
@@ -33,5 +48,14 @@ Scholarship:
     "address": "Lagos, Nigeria",
     "email": "mail@unilag.com",
     "website": "www.unilag.edu.ng",
+    "phone_number": "8122694518"
+  }
+
+School:
+{
+    "name": "Jesus Igwe High School",
+    "address": "Bethlehem, Judea",
+    "email": "mail@beth.lehem",
+    "website": "www.jesusislord.ng",
     "phone_number": "8122694518"
   }

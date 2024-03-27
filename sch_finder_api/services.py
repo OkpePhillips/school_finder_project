@@ -53,8 +53,8 @@ def edit_user(user: "User", data):
     user.first_name = data["first_name"]
     user.last_name = data["last_name"]
 
-    if data["password"] is not None:
-        user.set_password(data["password"])
+    # if data["password"] is not None:
+    #     user.set_password(data["password"])
 
     user.save()
 
