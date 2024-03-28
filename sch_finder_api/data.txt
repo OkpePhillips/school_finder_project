@@ -16,6 +16,14 @@ Register User:
 }
 
 {
+"first_name": "John",
+"last_name": "Mikel",
+"middle_name": "Obi",
+"email": "wahala@mail.com",
+"password": "thomascook"
+}
+
+{
 "first_name": "Nathan",
 "last_name": "Jordan",
 "middle_name": "Andrew",
@@ -26,9 +34,13 @@ Register User:
 "pass
 Editing:
 {
-"first_name": "Correct nancy",
-"last_name": "Mwuese",
-"password": "newpassword"
+    "first_name": "Correct nancy",
+    "middle_name": "Andrew",
+    "last_name": "Mwuese",
+    "current_degree": "Bsc.",
+    "gender": "Male",
+    "nationality": "Nigerian",
+    "dob": "2022-03-12"
 }
 
 Login:
