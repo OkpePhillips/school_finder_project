@@ -5,9 +5,14 @@ from . import services
 class UserSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     first_name = serializers.CharField()
+    middle_name = serializers.CharField()
     last_name = serializers.CharField()
     email = serializers.CharField()
     password = serializers.CharField(write_only=True)
+    current_degree = serializers.CharField(required=False)
+    gender = serializers.CharField(required=False)
+    nationality = serializers.CharField(required=False)
+    dob = serializers.DateField(required=False)
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)
@@ -17,7 +22,12 @@ class UserSerializer(serializers.Serializer):
 
 class UserEditSerializer(serializers.Serializer):
     first_name = serializers.CharField()
+    middle_name = serializers.CharField()
     last_name = serializers.CharField()
+    current_degree = serializers.CharField()
+    gender = serializers.CharField()
+    nationality = serializers.CharField()
+    dob = serializers.DateField()
 
 
 class SchoolSerializer(serializers.Serializer):

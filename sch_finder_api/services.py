@@ -8,22 +8,33 @@ from django.conf import settings
 class UserDataClass:
     first_name: str
     last_name: str
+    middle_name: str
     email: str
     password: str = None
     id: int = None
+    current_degree: str = None
+    gender: str = None
+    nationality: str = None
+    dob: datetime = None
 
     @classmethod
     def from_instance(cls, user:"User"):
         return cls(
             first_name=user.first_name,
+            middle_name=user.middle_name,
             last_name=user.last_name,
             email=user.email,
-            id=user.id
+            id=user.id,
+            current_degree=user.current_degree,
+            gender=user.gender,
+            nationality=user.nationality,
+            dob=user.dob
         )
 
 def create_user(user_dc:"UserDataClass"):
     instance = User(
         first_name=user_dc.first_name,
+        middle_name=user_dc.middle_name,
         last_name=user_dc.last_name,
         email=user_dc.email
     )
@@ -51,10 +62,13 @@ def create_token(user_id: int) -> str:
 
 def edit_user(user: "User", data):
     user.first_name = data["first_name"]
+    user.middle_name = data["middle_name"]
     user.last_name = data["last_name"]
+    user.current_degree = data["current_degree"]
+    user.gender = data["gender"]
+    user.nationality = data["nationality"]
+    user.dob = data["dob"]
 
-    # if data["password"] is not None:
-    #     user.set_password(data["password"])
 
     user.save()
 

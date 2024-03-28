@@ -2,13 +2,15 @@ Register User:
 {
 "first_name": "jphn",
 "last_name": "kilkda",
-"email": "none@mail.com",
+"middle_name": "Father",
+"email": "changing@gmail.com",
 "password": "tired@mail.com"
 }
 
 {
 "first_name": "Peter",
 "last_name": "Cook",
+"middle_name": "Father",
 "email": "cucurella@mail.com",
 "password": "thomascook"
 }
@@ -16,10 +18,11 @@ Register User:
 {
 "first_name": "Nathan",
 "last_name": "Jordan",
+"middle_name": "Andrew",
 "email": "kohat69384@shaflyn.com",
 "password": "thomascook"
-changedpassword: "tester1234"
 }
+
 "pass
 Editing:
 {
