@@ -29,7 +29,8 @@ class LoginApi(views.APIView):
             raise exceptions.AuthenticationFailed("Invalid Credentials")
         
         token = services.create_token(user_id=user.id)
-        res = response.Response({"token": token})
+        serializer = UserSerializer(user)
+        res = response.Response({"token": token, "user": serializer.data})
         # res.set_cookie(key="jwt", value=token, httponly=True)
 
         return res
@@ -86,6 +87,9 @@ class SchoolApi(views.APIView):
         return response.Response(data=serializer.data)
 
     def get(self, request):
+        self.authentication_classes = []
+        self.permission_classes = [permissions.AllowAny]
+
         schools = School.objects.all()
         serializer = SchoolSerializer(schools, many=True)
 
@@ -122,6 +126,9 @@ class ScholarshipApi(views.APIView):
         return response.Response(data=serializer.data)
 
     def get(self, request):
+        self.authentication_classes = []
+        self.permission_classes = [permissions.AllowAny]
+
         scholarships = Scholarship.objects.all()
         serializer = ScholarshipSerializer(scholarships, many=True)
 

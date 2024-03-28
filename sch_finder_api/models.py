@@ -3,9 +3,11 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email, password=None, is_staff=False, is_superuser=False):
+    def create_user(self, first_name, middle_name, last_name, email, password=None, is_staff=False, is_superuser=False):
         if not first_name:
             raise ValueError("First name cannot be empty")
+        if not middle_name:
+            raise ValueError("Middle name cannot be empty")
         if not last_name:
             raise ValueError("Last name cannot be empty")
         if not email:
@@ -13,6 +15,7 @@ class UserManager(BaseUserManager):
         
         user = self.model(email=self.normalize_email(email))
         user.first_name = first_name
+        user.middle_name = middle_name
         user.last_name = last_name
         user.set_password(password)
         user.is_active = True
@@ -39,9 +42,14 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     first_name = models.CharField(verbose_name="First Name", max_length=255)
+    middle_name = models.CharField(verbose_name="Middle Name", max_length=255)
     last_name = models.CharField(verbose_name="Last Name", max_length=255)
     email = models.EmailField(verbose_name="Email", max_length=255, unique=True)
     password = models.CharField(max_length=255)
+    current_degree = models.CharField(max_length=255, default=None, null=True)
+    gender = models.CharField(max_length=255, default=None, null=True)
+    nationality = models.CharField(max_length=255, default=None, null=True)
+    dob = models.DateField(default=None, null=True)
     username = None
 
     USERNAME_FIELD = "email"
