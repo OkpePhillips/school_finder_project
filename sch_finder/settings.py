@@ -28,7 +28,7 @@ JWT_SECRET = 'school_finder_project13'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["https://uniguide-7lk7.onrender.com"]
 
 
 # Application definition
