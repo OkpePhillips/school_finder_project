@@ -1,7 +1,7 @@
 import dataclasses
 import datetime
 import jwt
-from .models import User, School, Scholarship
+from .models import User, School, Scholarship, Review
 from django.conf import settings
 
 @dataclasses.dataclass
@@ -77,28 +77,31 @@ def edit_user(user: "User", data):
 @dataclasses.dataclass
 class SchoolDataClass:
     name: str
-    address: str
-    email: str
+    country: str
+    city: str
+    degrees: str
     website: str
-    phone_number: int
+    money: int
 
     @classmethod
     def from_instance(cls, school:"School"):
         return cls(
             name=school.name,
-            address=school.address,
-            email=school.email,
+            country=school.country,
+            city=school.city,
+            degrees=school.degrees,
             website=school.website,
-            phone_number=school.phone_number
+            money=school.money
         )
 
 def create_school(sch:"SchoolDataClass"):
     instance = School(
         name=sch.name,
-        address=sch.address,
-        email=sch.email,
+        country=sch.country,
+        city=sch.city,
+        degrees=sch.degrees,
         website=sch.website,
-        phone_number=sch.phone_number
+        money=sch.money
     )
     instance.save()
 
@@ -108,10 +111,11 @@ def update_sch(id, data):
     try:
         school = School.objects.get(id=id)
         school.name = data["name"]
-        school.address = data["address"]
-        school.email = data["email"]
+        school.country = data["country"]
+        school.city = data["city"]
+        school.degrees = data["degrees"]
         school.website = data["website"]
-        school.phone_number = data["phone_number"]
+        school.money = data["money"]
 
         school.save()
 
@@ -124,8 +128,8 @@ class ScholarshipDataClass:
     title: str
     description: str
     benefit: str
-    requirement: str
-    link: int
+    link: str
+    school: str
 
     @classmethod
     def from_instance(cls, ship:"Scholarship"):
@@ -133,8 +137,8 @@ class ScholarshipDataClass:
             title=ship.title,
             description=ship.description,
             benefit=ship.benefit,
-            requirement=ship.requirement,
-            link=ship.link
+            link=ship.link,
+            school=ship.school
         )
 
 def create_scholarship(ship:"ScholarshipDataClass"):
@@ -142,8 +146,8 @@ def create_scholarship(ship:"ScholarshipDataClass"):
         title=ship.title,
         description=ship.description,
         benefit=ship.benefit,
-        requirement=ship.requirement,
-        link=ship.link
+        link=ship.link,
+        school=ship.school
     )
     instance.save()
 
@@ -155,11 +159,52 @@ def update_scholarship(id, data):
         schship.title = data["title"]
         schship.description = data["description"]
         schship.benefit = data["benefit"]
-        schship.requirement = data["requirement"]
         schship.link = data["link"]
+        schship.school = data["school"]
 
         schship.save()
 
         return schship
     except Scholarship.DoesNotExist:
+        return response.Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@dataclasses.dataclass
+class ReviewDataClass:
+    description: str
+    rating: int
+    school_id: ScholarshipDataClass = None
+    user_id: UserDataClass = None
+
+    @classmethod
+    def from_instance(cls, review:"Review"):
+        return cls(
+            school_id=review.school_id,
+            user_id=review.user_id,
+            description=review.description,
+            rating=review.rating
+        )
+
+def create_review(school, user,review:"ReviewDataClass"):
+    instance = Review(
+        school_id=school,
+        user_id=user,
+        description=review.description,
+        rating=review.rating
+    )
+    instance.save()
+
+    return ReviewDataClass.from_instance(instance)
+
+
+def update_review(id, data):
+    try:
+        review = Review.objects.get(id=id)
+        review.description = data["description"]
+        review.rating = data["rating"]
+
+        review.save()
+
+        return review
+    except Review.DoesNotExist:
         return response.Response(status=status.HTTP_404_NOT_FOUND)

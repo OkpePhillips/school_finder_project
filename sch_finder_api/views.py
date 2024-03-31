@@ -1,8 +1,8 @@
 from rest_framework import views, response, exceptions, permissions, status
 
-from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer
+from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer, ReviewSerializer, EditReviewSerializer
 from . import services, authentication
-from .models import School, Scholarship
+from .models import School, Scholarship, Review
 
 class RegisterUserApi(views.APIView):
 
@@ -31,7 +31,6 @@ class LoginApi(views.APIView):
         token = services.create_token(user_id=user.id)
         serializer = UserSerializer(user)
         res = response.Response({"token": token, "user": serializer.data})
-        # res.set_cookie(key="jwt", value=token, httponly=True)
 
         return res
 
@@ -86,11 +85,15 @@ class SchoolApi(views.APIView):
 
         return response.Response(data=serializer.data)
 
-    def get(self, request):
+    def get(self, request, id=None):
         self.authentication_classes = []
         self.permission_classes = [permissions.AllowAny]
+        
+        if id is not None:
+            school = School.objects.filter(id=id)
+        else:
+            schools = School.objects.all()
 
-        schools = School.objects.all()
         serializer = SchoolSerializer(schools, many=True)
 
         return response.Response(serializer.data)
@@ -125,11 +128,15 @@ class ScholarshipApi(views.APIView):
 
         return response.Response(data=serializer.data)
 
-    def get(self, request):
+    def get(self, request, id=None):
         self.authentication_classes = []
         self.permission_classes = [permissions.AllowAny]
 
-        scholarships = Scholarship.objects.all()
+        if id is not None:
+            scholarship = Scholarship.objects.filter(id=id)
+        else:
+            scholarships = Scholarship.objects.all()
+        
         serializer = ScholarshipSerializer(scholarships, many=True)
 
         return response.Response(serializer.data)
@@ -164,4 +171,48 @@ class ChangePassword(views.APIView):
             user.save()
             return response.Response({'message': 'Password changed successfully.'}, status=status.HTTP_200_OK)
         return response.Response({'error': 'Incorrect old password.'}, status=status.HTTP_400_BAD_REQUEST)
+  
+
+class ReviewApi(views.APIView):
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def post(self, request):
+        serializer = ReviewSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        school = School.objects.get(id=data.school_id)
+        serializer.instance = services.create_review(school=school, user=request.user, review=data)
+
+        school.update_rating()
+        return response.Response(data=serializer.data)
+
+    def get(self, request, id=None):
+        self.authentication_classes = []
+        self.permission_classes = [permissions.AllowAny]
+
+        if id is not None:
+            reviews = Review.objects.filter(school_id=id)
+        else:
+            reviews = Review.objects.all()
+
+        serializer = ReviewSerializer(reviews, many=True)
+
+        return response.Response(serializer.data)
     
+    def delete(self, request, id):
+        try:
+            review = Review.objects.get(id=id)
+        except Review.DoesNotExist:
+            return response.Response(status=status.HTTP_404_NOT_FOUND)
+
+        review.delete()
+        return response.Response({"message": "review deleted"}, status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, id):
+        serializer = EditReviewSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        review = services.update_review(id, data)
+        return response.Response({"message": "Success"})

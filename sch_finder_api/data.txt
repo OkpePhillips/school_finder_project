@@ -57,20 +57,37 @@ Password change :
 
 
 Scholarship:
+{
+  "title": "Women scholarship",
+  "description": "PHD, Masters"
+  "benefit": "Up to $1000",
+  "link": "www.google.com"
+}
 
-  {
-    "name": "James Montessori",
-    "address": "Lagos, Nigeria",
-    "email": "mail@unilag.com",
-    "website": "www.unilag.edu.ng",
-    "phone_number": "8122694518"
-  }
+ 
 
 School:
 {
     "name": "Jesus Igwe High School",
-    "address": "Bethlehem, Judea",
-    "email": "mail@beth.lehem",
+    "country": "Bethlehem",
+    "city": "Bem",
+    "degrees": "None",
     "website": "www.jesusislord.ng",
-    "phone_number": "8122694518"
+    "money": "24500"
+  }
+
+   {
+    "name": "James Montessori",
+    "country": "Nigeria",
+    "city": "Lagos",
+    "degree": "Masters, PHD, OMN",
+    "website": "www.unilag.edu.ng",
+    "money": "8124518"
+  }
+
+  Review:
+  {
+    "school_id": 1,
+    "description": "nothing to write",
+    "rating": 4
   }

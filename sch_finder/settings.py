@@ -28,7 +28,7 @@ JWT_SECRET = 'school_finder_project13'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["uniguide-7lk7.onrender.com"]
+ALLOWED_HOSTS = ["uniguide-7lk7.onrender.com", "127.0.0.1"]
 
 # Application definition
 
@@ -84,6 +84,7 @@ WSGI_APPLICATION = 'sch_finder.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
 DATABASE_URL="postgres://godwin:4D0XTvwA00Ch7vYaRr06fMU7WVUk24yq@dpg-co2n7e8l6cac73br5g5g-a.oregon-postgres.render.com/unifinder"
 
 DATABASES = {
@@ -142,4 +143,4 @@ EMAIL_HOST_PASSWORD = 'gusi rpln eecd gbvb'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-DEFUALT_FROM_EMAIL = 'okpegodwinfather@gmail.com'
+DEFAULT_FROM_EMAIL = 'okpegodwinfather@gmail.com'
