@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import services
+from .models import User, School
 
 
 class UserSerializer(serializers.Serializer):
@@ -33,10 +34,12 @@ class UserEditSerializer(serializers.Serializer):
 class SchoolSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
-    address = serializers.CharField()
-    email = serializers.CharField()
+    country = serializers.CharField()
+    city = serializers.CharField()
+    degrees = serializers.CharField()
     website = serializers.CharField()
-    phone_number = serializers.IntegerField()
+    money = serializers.IntegerField()
+    rating = serializers.DecimalField(max_digits=2, decimal_places=1, read_only=True)
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)
@@ -45,18 +48,20 @@ class SchoolSerializer(serializers.Serializer):
 
 class EditSchoolSerializer(serializers.Serializer):
     name = serializers.CharField()
-    address = serializers.CharField()
-    email = serializers.CharField()
+    country = serializers.CharField()
+    city = serializers.CharField()
+    degrees = serializers.CharField()
     website = serializers.CharField()
-    phone_number = serializers.IntegerField()
+    money = serializers.IntegerField()
+
 
 class ScholarshipSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     description = serializers.CharField()
     benefit = serializers.CharField()
-    requirement = serializers.CharField()
     link = serializers.CharField()
+    school = serializers.CharField()
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)
@@ -67,8 +72,8 @@ class EditScholarshipSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
     benefit = serializers.CharField()
-    requirement = serializers.CharField()
     link = serializers.CharField()
+    school = serializers.CharField()
 
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -78,3 +83,22 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 class ResetPasswordEmailSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
+
+
+class ReviewSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    school_id = serializers.PrimaryKeyRelatedField(queryset=School.objects.all().values_list('id', flat=True))
+    user_id = serializers.PrimaryKeyRelatedField(read_only=True)
+    # user_id = UserSerializer(read_only=True)
+    description = serializers.CharField(max_length=3000)
+    rating = serializers.IntegerField()
+
+    def to_internal_value(self, data):
+        data =super().to_internal_value(data)
+
+        return services.ReviewDataClass(**data)
+
+
+class EditReviewSerializer(serializers.Serializer):
+    description = serializers.CharField()
+    rating = serializers.IntegerField()

@@ -39,7 +39,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-
 class User(AbstractUser):
     first_name = models.CharField(verbose_name="First Name", max_length=255)
     middle_name = models.CharField(verbose_name="Middle Name", max_length=255)
@@ -59,14 +58,39 @@ class User(AbstractUser):
 
 class School(models.Model):
     name = models.CharField(verbose_name="Name", max_length=255, unique=True)
-    address = models.CharField(verbose_name="School Address", max_length=1000)
-    email = models.EmailField(verbose_name="Contact Email", max_length=255)
+    country = models.CharField(verbose_name="Country", max_length=100)
+    city = models.CharField(verbose_name="City", max_length=100)
+    degrees = models.CharField(verbose_name="Degrees Awarded", max_length=600)
     website = models.CharField(verbose_name="Website url", max_length=255)
-    phone_number = models.IntegerField(verbose_name="Phone Number")
+    money = models.IntegerField(verbose_name="Amount to pay")
+    rating = models.DecimalField(
+        verbose_name="Rating",
+        max_digits=2,
+        decimal_places=1,
+        default=0,
+        editable=False
+    )
+
+    def update_rating(self):
+        reviews = self.review_set.all()
+        if reviews:
+            total_ratings = sum(review.rating for review in reviews)
+            self.rating = total_ratings / reviews.count()
+        else:
+            self.rating = 0
+        self.save()
 
 class Scholarship(models.Model):
     title = models.CharField(verbose_name="Title", max_length=255, unique=True)
     description = models.TextField(verbose_name="Description", max_length=3000)
     benefit = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
-    requirement = models.TextField(verbose_name="Application Requirements", max_length=1000)
     link = models.CharField(verbose_name="Link to apply", max_length=255)
+    school = models.CharField(verbose_name="School", max_length=255)
+
+
+class Review(models.Model):
+    school_id = models.ForeignKey('School', verbose_name="School", on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, verbose_name="User", on_delete=models.CASCADE)
+    description = models.TextField(verbose_name="Description", max_length=3000)
+    rating = models.IntegerField(verbose_name="Rating")
+
