@@ -125,6 +125,17 @@ class UserApi(views.APIView):
         updated_user = services.edit_user(user, data)
         return response.Response({"message": "Profile updated successfully"})
     
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+    )
     def delete(self, request):
         """ Api view to delete a user """
         user = request.user
@@ -193,6 +204,17 @@ class SchoolApi(views.APIView):
 
         return response.Response(serializer.data)
     
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+    )
     def delete(self, request, id):
         """ 
         Delete school with id provided
@@ -281,6 +303,17 @@ class ScholarshipApi(views.APIView):
 
         return response.Response(serializer.data)
     
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+    )
     def delete(self, request, id):
         """
         Delete a scholarship object based on id provided.
@@ -407,6 +440,17 @@ class ReviewApi(views.APIView):
 
         return response.Response(serializer.data)
     
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+    )
     def delete(self, request, id):
         """
         Delete a review object based on id provided
