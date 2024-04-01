@@ -4,8 +4,23 @@ from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, Ed
 from . import services, authentication
 from .models import School, Scholarship, Review
 
-class RegisterUserApi(views.APIView):
+#API Documentation imports
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
+
+class RegisterUserApi(views.APIView):
+    """
+    User registration endpoint
+    """
+    @swagger_auto_schema(
+        operation_description="User registration endpoint",
+        responses={
+            200: "Registered user details",
+            400: "Bad Request",
+        },
+        request_body=UserSerializer,
+        )
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -16,7 +31,30 @@ class RegisterUserApi(views.APIView):
         return response.Response(data=serializer.data)
 
 class LoginApi(views.APIView):
+    """
+    API view to log a user in using email and password
+    """
+    @swagger_auto_schema(
+        operation_description="User Login endpoint",
+        responses={
+            200: "authentication token, and Logged in user",
+            400: "Bad Request",
+        },
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'email': openapi.Schema(
+                    type=openapi.TYPE_STRING, description="User email"),
+                'password': openapi.Schema(
+                    type=openapi.TYPE_STRING, description="Password"),
+            },
+            required=['email', 'password']
+        )
+    )
     def post(self, request):
+        """
+        Log in user with email and password.
+        """
         email = request.data["email"]
         password =request.data["password"]
 
@@ -35,17 +73,30 @@ class LoginApi(views.APIView):
         return res
 
 class UserApi(views.APIView):
+    """
+    API view to carry out logged user related activities.
+    """
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request):
+        """
+        API view to retrieve a logged in user.
+        """
         user = request.user
 
         serializer = UserSerializer(user)
 
         return response.Response(serializer.data)
     
+    @swagger_auto_schema(
+        operation_description="Edit Logged in user details",
+        request_body=UserEditSerializer,
+    )
     def put(self, request):
+        """
+        Endpoint to edit user details
+        """
         user = request.user
         serializer = UserEditSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -55,6 +106,7 @@ class UserApi(views.APIView):
         return response.Response({"message": "Profile updated successfully"})
     
     def delete(self, request):
+        """ Api view to delete a user """
         user = request.user
         user.delete()
 
@@ -73,10 +125,21 @@ class LogoutApi(views.APIView):
 
 
 class SchoolApi(views.APIView):
+    """
+    API view to create, retrieve, update and delete school
+    """
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
+    @swagger_auto_schema(
+        responses={
+            200: "Registered school details",
+            400: "Bad Request",
+        },
+        request_body=SchoolSerializer,
+    )
     def post(self, request):
+        """ Create a school object """
         serializer = SchoolSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -86,6 +149,9 @@ class SchoolApi(views.APIView):
         return response.Response(data=serializer.data)
 
     def get(self, request, id=None):
+        """
+        Retrieve school with id provided, or all schools if no id
+        """
         self.authentication_classes = []
         self.permission_classes = [permissions.AllowAny]
         
@@ -99,6 +165,9 @@ class SchoolApi(views.APIView):
         return response.Response(serializer.data)
     
     def delete(self, request, id):
+        """ 
+        Delete school with id provided
+        """
         try:
             school = School.objects.get(id=id)
         except School.DoesNotExist:
@@ -107,7 +176,15 @@ class SchoolApi(views.APIView):
         school.delete()
         return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
 
+    @swagger_auto_schema(
+        responses={
+            200: "Successful",
+            400: "Bad Request",
+        },
+        request_body=EditSchoolSerializer,
+    )
     def put(self, request, id):
+        """Edit School Details"""
         serializer = EditSchoolSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -116,10 +193,23 @@ class SchoolApi(views.APIView):
 
 
 class ScholarshipApi(views.APIView):
+    """
+    API view to create, retrieve, update and delete scholarship objects
+    """
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
+    @swagger_auto_schema(
+        responses={
+            200: "Created scholarship details",
+            400: "Bad Request",
+        },
+        request_body=ScholarshipSerializer,
+    )
     def post(self, request):
+        """
+        Create a new scholarship object
+        """
         serializer = ScholarshipSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -129,6 +219,9 @@ class ScholarshipApi(views.APIView):
         return response.Response(data=serializer.data)
 
     def get(self, request, id=None):
+        """
+        Retrieve specific scholarship if id, else retrieve all scholarship objects.
+        """
         self.authentication_classes = []
         self.permission_classes = [permissions.AllowAny]
 
@@ -142,6 +235,9 @@ class ScholarshipApi(views.APIView):
         return response.Response(serializer.data)
     
     def delete(self, request, id):
+        """
+        Delete a scholarship object based on id provided.
+        """
         try:
             scholarship = Scholarship.objects.get(id=id)
         except Scholarship.DoesNotExist:
@@ -150,18 +246,40 @@ class ScholarshipApi(views.APIView):
         scholarship.delete()
         return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
 
+    @swagger_auto_schema(
+        responses={
+            200: "Successful",
+            400: "Bad Request",
+        },
+        request_body=EditScholarshipSerializer,
+    )
     def put(self, request, id):
+        """
+        Edit scholarship details
+        """
         serializer = EditScholarshipSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         schship_update = services.update_scholarship(id, data)
         return response.Response({"message": "Successful"})
 
+
 class ChangePassword(views.APIView):
+    """
+    API view for change of password
+    """
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
+    @swagger_auto_schema(
+        responses={
+            200: "Password successfully changed",
+            400: "Bad Request",
+        },
+        request_body=ChangePasswordSerializer,
+    )
     def post(self, request):
+        """ Change user password """
         user = request.user
         serializer = ChangePasswordSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -174,10 +292,21 @@ class ChangePassword(views.APIView):
   
 
 class ReviewApi(views.APIView):
+    """
+    API view for creating, editing, retrieving and deleting a review object
+    """
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
+    @swagger_auto_schema(
+        responses={
+            200: "Review data",
+            400: "Bad Request",
+        },
+        request_body=ReviewSerializer,
+    )
     def post(self, request):
+        """ Create a new review object """
         serializer = ReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -189,6 +318,9 @@ class ReviewApi(views.APIView):
         return response.Response(data=serializer.data)
 
     def get(self, request, id=None):
+        """
+        Retrieve a specific review or all reviews if id is not provided
+        """
         self.authentication_classes = []
         self.permission_classes = [permissions.AllowAny]
 
@@ -202,6 +334,15 @@ class ReviewApi(views.APIView):
         return response.Response(serializer.data)
     
     def delete(self, request, id):
+        """
+        Delete a review object based on id provided
+
+        Parameters:
+        - id: The ID of the review to delete (integer)
+
+        Example:
+        DELETE /api/reviews/12/
+        """
         try:
             review = Review.objects.get(id=id)
         except Review.DoesNotExist:
@@ -210,7 +351,17 @@ class ReviewApi(views.APIView):
         review.delete()
         return response.Response({"message": "review deleted"}, status=status.HTTP_204_NO_CONTENT)
 
+    @swagger_auto_schema(
+        responses={
+            200: "Success",
+            400: "Bad Request",
+        },
+        request_body=EditReviewSerializer,
+    )
     def put(self, request, id):
+        """
+        Edit a review object
+        """
         serializer = EditReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
