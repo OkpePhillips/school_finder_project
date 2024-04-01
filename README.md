@@ -36,12 +36,12 @@ We envisioned creating a user-friendly platform that simplifies the process to S
 > Install dependencies
     
    
-    npm install
+    pip install -r requirements.txt
   
 > Run the app
     
     
-    npm run dev
+    python manage.py runserver
    
 > Run the tests
     
@@ -56,7 +56,7 @@ We envisioned creating a user-friendly platform that simplifies the process to S
 
 ---
 
-$ npm start to run the local server
+$ python manage.py runserver  "to run the local server"
 
 ---
 
