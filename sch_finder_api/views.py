@@ -79,6 +79,17 @@ class UserApi(views.APIView):
     authentication_classes = (authentication.CustomUserAuthentication, )
     permission_classes = (permissions.IsAuthenticated, )
 
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+    )
     def get(self, request):
         """
         API view to retrieve a logged in user.
@@ -90,6 +101,15 @@ class UserApi(views.APIView):
         return response.Response(serializer.data)
     
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         operation_description="Edit Logged in user details",
         request_body=UserEditSerializer,
     )
@@ -132,6 +152,15 @@ class SchoolApi(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Registered school details",
             400: "Bad Request",
@@ -177,6 +206,15 @@ class SchoolApi(views.APIView):
         return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Successful",
             400: "Bad Request",
@@ -200,6 +238,15 @@ class ScholarshipApi(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Created scholarship details",
             400: "Bad Request",
@@ -247,6 +294,15 @@ class ScholarshipApi(views.APIView):
         return response.Response({"message": "school deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Successful",
             400: "Bad Request",
@@ -272,6 +328,15 @@ class ChangePassword(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Password successfully changed",
             400: "Bad Request",
@@ -299,6 +364,15 @@ class ReviewApi(views.APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Review data",
             400: "Bad Request",
@@ -352,6 +426,15 @@ class ReviewApi(views.APIView):
         return response.Response({"message": "review deleted"}, status=status.HTTP_204_NO_CONTENT)
 
     @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
         responses={
             200: "Success",
             400: "Bad Request",
