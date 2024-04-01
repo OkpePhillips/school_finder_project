@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',  # Django Rest Framework
     'sch_finder_api',  # Your app
     'django_rest_passwordreset',  # Password reset functionality
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
