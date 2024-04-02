@@ -56,11 +56,10 @@ class User(AbstractUser):
 
 class School(models.Model):
     name = models.CharField(verbose_name="Name", max_length=255, unique=True)
-    country = models.CharField(verbose_name="Country", max_length=100)
-    city = models.CharField(verbose_name="City", max_length=100)
+    country = models.ForeignKey('Country', on_delete=models.CASCADE)
+    city = models.ForeignKey('City', on_delete=models.CASCADE)
     degrees = models.CharField(verbose_name="Degrees Awarded", max_length=600)
     website = models.CharField(verbose_name="Website url", max_length=255)
-    money = models.IntegerField(verbose_name="Amount to pay")
     rating = models.DecimalField(
         verbose_name="Rating",
         max_digits=2,
@@ -81,9 +80,9 @@ class School(models.Model):
 class Scholarship(models.Model):
     title = models.CharField(verbose_name="Title", max_length=255, unique=True)
     description = models.TextField(verbose_name="Description", max_length=3000)
-    benefit = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
+    money = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
     link = models.CharField(verbose_name="Link to apply", max_length=255)
-    school = models.CharField(verbose_name="School", max_length=255)
+    school = models.ForeignKey('School', verbose_name="School", on_delete=models.CASCADE)
 
 
 class Review(models.Model):
@@ -92,3 +91,13 @@ class Review(models.Model):
     description = models.TextField(verbose_name="Description", max_length=3000)
     rating = models.IntegerField(verbose_name="Rating")
 
+
+class Country(models.Model):
+    """ Country Table """
+    name = models.CharField(verbose_name="Country Name", max_length=255, unique=True)
+
+
+class City(models.Model):
+    """ City Table """
+    name = models.CharField(verbose_name='City Name', max_length=200, unique=True)
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name='cities')

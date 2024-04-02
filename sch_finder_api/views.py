@@ -1,8 +1,8 @@
 from rest_framework import views, response, exceptions, permissions, status
 
-from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer, ReviewSerializer, EditReviewSerializer
+from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer, ReviewSerializer, EditReviewSerializer, CountrySerializer, CitySerializer
 from . import services, authentication
-from .models import School, Scholarship, Review
+from .models import School, Scholarship, Review, Country, City
 
 #API Documentation imports
 from drf_yasg import openapi
@@ -494,3 +494,53 @@ class ReviewApi(views.APIView):
         data = serializer.validated_data
         review = services.update_review(id, data)
         return response.Response({"message": "Success"})
+
+
+class CountryApi(views.APIView):
+    """
+    API view to create and retrieve country
+    """
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
+
+    @swagger_auto_schema(
+        manual_parameters=[
+        openapi.Parameter(
+            name='token',
+            in_=openapi.IN_HEADER,
+            type=openapi.TYPE_STRING,
+            description='token',
+            required=True,
+            ),
+        ],
+        responses={
+            200: "Success",
+            400: "Bad Request",
+        },
+        request_body=CountrySerializer,
+    )
+    def post(self, request):
+        """ Create a Country object """
+        serializer = CountrySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data = serializer.validated_data
+        serializer.instance = services.create_country(country=data)
+
+        return response.Response(data=serializer.data)
+
+    def get(self, request, id=None):
+        """
+        Retrieve country with id provided, or all countries if no id provided
+        """
+        self.authentication_classes = []
+        self.permission_classes = [permissions.AllowAny]
+        
+        if id is not None:
+            coountry = Country.objects.filter(id=id)
+        else:
+            country = Country.objects.all()
+
+        serializer = CountrySerializer(country, many=True)
+
+        return response.Response(serializer.data)

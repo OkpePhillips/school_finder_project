@@ -24,7 +24,6 @@ class SchoolAdmin(admin.ModelAdmin):
         "city",
         "degrees",
         "website",
-        "money",
         "rating"
     )
 admin.site.register(models.School, SchoolAdmin)
@@ -34,7 +33,6 @@ class ScholarshipAdmin(admin.ModelAdmin):
     list_display = (
         "title",
         "description",
-        "benefit",
         "link",
         "school"
     )
@@ -50,3 +48,19 @@ class ReviewAdmin(admin.ModelAdmin):
         "rating"
     )
 admin.site.register(models.Review, ReviewAdmin)
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name"
+    )
+admin.site.register(models.Country, CountryAdmin)
+
+
+class CityAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "country"
+    )
+admin.site.register(models.City, CityAdmin)
