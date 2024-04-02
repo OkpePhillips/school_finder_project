@@ -34,11 +34,10 @@ class UserEditSerializer(serializers.Serializer):
 class SchoolSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
-    country = serializers.CharField()
-    city = serializers.CharField()
+    country_id = serializers.StringRelatedField()
+    city_id = country = serializers.StringRelatedField()
     degrees = serializers.CharField()
     website = serializers.CharField()
-    money = serializers.IntegerField()
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, read_only=True)
 
     def to_internal_value(self, data):
@@ -52,14 +51,13 @@ class EditSchoolSerializer(serializers.Serializer):
     city = serializers.CharField()
     degrees = serializers.CharField()
     website = serializers.CharField()
-    money = serializers.IntegerField()
 
 
 class ScholarshipSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     description = serializers.CharField()
-    benefit = serializers.CharField()
+    money = serializers.CharField()
     link = serializers.CharField()
     school = serializers.CharField()
 
@@ -71,7 +69,7 @@ class ScholarshipSerializer(serializers.Serializer):
 class EditScholarshipSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
-    benefit = serializers.CharField()
+    money = serializers.CharField()
     link = serializers.CharField()
     school = serializers.CharField()
 
@@ -89,7 +87,6 @@ class ReviewSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     school_id = serializers.PrimaryKeyRelatedField(queryset=School.objects.all().values_list('id', flat=True))
     user_id = serializers.PrimaryKeyRelatedField(read_only=True)
-    # user_id = UserSerializer(read_only=True)
     description = serializers.CharField(max_length=3000)
     rating = serializers.IntegerField()
 
@@ -102,3 +99,22 @@ class ReviewSerializer(serializers.Serializer):
 class EditReviewSerializer(serializers.Serializer):
     description = serializers.CharField()
     rating = serializers.IntegerField()
+
+
+class CountrySerializer(serializers.Serializer):
+    name = serializers.CharField()
+
+    def to_internal_value(self, data):
+        data =super().to_internal_value(data)
+
+        return services.CountryDataClass(**data)
+
+
+class CitySerializer(serializers.Serializer):
+    name = serializers.CharField()
+    country = serializers.CharField()
+
+    def to_internal_value(self, data):
+        data =super().to_internal_value(data)
+
+        return services.CityDataClass(**data)

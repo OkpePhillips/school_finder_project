@@ -1,7 +1,7 @@
 import dataclasses
 import datetime
 import jwt
-from .models import User, School, Scholarship, Review
+from .models import User, School, Scholarship, Review, Country, City
 from django.conf import settings
 
 @dataclasses.dataclass
@@ -81,7 +81,6 @@ class SchoolDataClass:
     city: str
     degrees: str
     website: str
-    money: int
 
     @classmethod
     def from_instance(cls, school:"School"):
@@ -90,8 +89,7 @@ class SchoolDataClass:
             country=school.country,
             city=school.city,
             degrees=school.degrees,
-            website=school.website,
-            money=school.money
+            website=school.website
         )
 
 def create_school(sch:"SchoolDataClass"):
@@ -100,8 +98,7 @@ def create_school(sch:"SchoolDataClass"):
         country=sch.country,
         city=sch.city,
         degrees=sch.degrees,
-        website=sch.website,
-        money=sch.money
+        website=sch.website
     )
     instance.save()
 
@@ -115,7 +112,6 @@ def update_sch(id, data):
         school.city = data["city"]
         school.degrees = data["degrees"]
         school.website = data["website"]
-        school.money = data["money"]
 
         school.save()
 
@@ -127,7 +123,7 @@ def update_sch(id, data):
 class ScholarshipDataClass:
     title: str
     description: str
-    benefit: str
+    money: str
     link: str
     school: str
 
@@ -136,7 +132,7 @@ class ScholarshipDataClass:
         return cls(
             title=ship.title,
             description=ship.description,
-            benefit=ship.benefit,
+            money=ship.money,
             link=ship.link,
             school=ship.school
         )
@@ -145,7 +141,7 @@ def create_scholarship(ship:"ScholarshipDataClass"):
     instance = Scholarship(
         title=ship.title,
         description=ship.description,
-        benefit=ship.benefit,
+        money=ship.money,
         link=ship.link,
         school=ship.school
     )
@@ -158,7 +154,7 @@ def update_scholarship(id, data):
         schship = Scholarship.objects.get(id=id)
         schship.title = data["title"]
         schship.description = data["description"]
-        schship.benefit = data["benefit"]
+        schship.money = data["money"]
         schship.link = data["link"]
         schship.school = data["school"]
 
@@ -208,3 +204,45 @@ def update_review(id, data):
         return review
     except Review.DoesNotExist:
         return response.Response(status=status.HTTP_404_NOT_FOUND)
+    
+
+@dataclasses.dataclass
+class CountryDataClass:
+    name: str
+
+    @classmethod
+    def from_instance(cls, country:"Country"):
+        return cls(
+            name=country.name
+        )
+
+def create_country(country:"CountryDataClass"):
+    instance = Country(
+        name=country.name,
+    )
+    instance.save()
+
+    return CountryDataClass.from_instance(instance)
+
+
+@dataclasses.dataclass
+class CityDataClass:
+    name: str
+    country: CountryDataClass
+
+    @classmethod
+    def from_instance(cls, city:"City"):
+        return cls(
+            name=city.name,
+            country=city.country
+
+        )
+
+def create_city(country, city:"CityDataClass"):
+    instance = City(
+        name=city.name,
+        country=country
+    )
+    instance.save()
+
+    return CityDataClass.from_instance(instance)

@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 JWT_SECRET = os.environ.get('JWT_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # List of allowed hostnames for the production environment
 ALLOWED_HOSTS = ["uniguide-7lk7.onrender.com", "127.0.0.1", "localhost"]

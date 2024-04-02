@@ -46,6 +46,9 @@ urlpatterns = [
     path("reviews/", views.ReviewApi.as_view(), name="get_reviews"),
     path("reviews/<int:id>/", views.ReviewApi.as_view(), name="update_review"),
     path("reviews/<int:id>/", views.ReviewApi.as_view(), name="get_school_review"),
-    path("reviews/<int:id>", views.ReviewApi.as_view(), name="delete_review"),
+    path("reviews/<int:id>/", views.ReviewApi.as_view(), name="delete_review"),
+    path("country/", views.CountryApi.as_view(), name="create_country"),
+    path("country/", views.CountryApi.as_view(), name="get_country"),
+    path("country/<int:id>/", views.CountryApi.as_view(), name="get_country"),
 ]
 
