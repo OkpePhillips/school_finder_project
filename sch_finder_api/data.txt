@@ -122,21 +122,144 @@ Scholarship:
 
 School:
 {
-    "name": "Jesus Igwe High School",
-    "country": "Bethlehem",
-    "city": "Bem",
-    "degrees": "None",
-    "website": "www.jesusislord.ng",
-    "money": "24500"
-  }
-
-   {
-    "name": "James Montessori",
+    "name": "University of Cape Town",
+    "country": "South Africa",
+    "city": "Cape Town",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.uct.ac.za/"
+  },
+  {
+    "name": "University of Nairobi",
+    "country": "Kenya",
+    "city": "Nairobi",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.uonbi.ac.ke/"
+  },
+  {
+    "name": "University of Lagos",
     "country": "Nigeria",
     "city": "Lagos",
-    "degree": "Masters, PHD, OMN",
-    "website": "www.unilag.edu.ng",
-    "money": "8124518"
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.unilag.edu.ng/"
+  },
+  {
+    "name": "University of Ghana",
+    "country": "Ghana",
+    "city": "Accra",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ug.edu.gh/"
+  },
+  {
+    "name": "University of Pretoria",
+    "country": "South Africa",
+    "city": "Pretoria",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.up.ac.za/"
+  },
+  {
+    "name": "University of Ibadan",
+    "country": "Nigeria",
+    "city": "Ibadan",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ui.edu.ng/"
+  },
+  {
+    "name": "University of Nairobi",
+    "country": "Kenya",
+    "city": "Nairobi",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.uonbi.ac.ke/"
+  },
+  {
+    "name": "University of Dar es Salaam",
+    "country": "Tanzania",
+    "city": "Dar es Salaam",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.udsm.ac.tz/"
+  },
+  {
+    "name": "University of Ibadan",
+    "country": "Nigeria",
+    "city": "Ibadan",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ui.edu.ng/"
+  },
+  {
+    "name": "Makerere University",
+    "country": "Uganda",
+    "city": "Kampala",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.mak.ac.ug/"
+  },
+  {
+    "name": "University of Johannesburg",
+    "country": "South Africa",
+    "city": "Johannesburg",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.uj.ac.za/"
+  },
+  {
+    "name": "University of Ghana",
+    "country": "Ghana",
+    "city": "Accra",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ug.edu.gh/"
+  },
+  {
+    "name": "University of Witwatersrand",
+    "country": "South Africa",
+    "city": "Johannesburg",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.wits.ac.za/"
+  },
+  {
+    "name": "University of Nairobi",
+    "country": "Kenya",
+    "city": "Nairobi",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.uonbi.ac.ke/"
+  },
+  {
+    "name": "University of Lagos",
+    "country": "Nigeria",
+    "city": "Lagos",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.unilag.edu.ng/"
+  },
+  {
+    "name": "University of Pretoria",
+    "country": "South Africa",
+    "city": "Pretoria",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.up.ac.za/"
+  },
+  {
+    "name": "University of Ghana",
+    "country": "Ghana",
+    "city": "Accra",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ug.edu.gh/"
+  },
+  {
+    "name": "University of Dar es Salaam",
+    "country": "Tanzania",
+    "city": "Dar es Salaam",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.udsm.ac.tz/"
+  },
+  {
+    "name": "University of Ibadan",
+    "country": "Nigeria",
+    "city": "Ibadan",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.ui.edu.ng/"
+  },
+  {
+    "name": "Makerere University",
+    "country": "Uganda",
+    "city": "Kampala",
+    "degrees": "Undergraduate, Postgraduate",
+    "website": "https://www.mak.ac.ug/"
   }
 
   Review:
