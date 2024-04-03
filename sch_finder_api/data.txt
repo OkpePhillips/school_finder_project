@@ -58,11 +58,65 @@ Password change :
 
 Scholarship:
 {
-  "title": "Women scholarship",
-  "description": "PHD, Masters"
-  "benefit": "Up to $1000",
-  "link": "www.google.com"
-}
+    "title": "Mastercard Foundation Scholarship",
+    "description": "The Mastercard Foundation Scholarship provides financial support to African students with demonstrated academic excellence and leadership potential.",
+    "benefit": "Full tuition fees, accommodation, books, and living expenses",
+    "link": "https://mastercardfdn.org/programs/scholars/"
+  },
+  {
+    "title": "Mandela Rhodes Scholarships",
+    "description": "The Mandela Rhodes Scholarships offer educational opportunities to young African leaders committed to making a positive impact in their communities.",
+    "benefit": "Tuition fees, accommodation, meals, a personal stipend, and travel expenses for leadership development programs",
+    "link": "https://www.mandelarhodes.org/"
+  },
+  {
+    "title": "NNPC/SEPLAT Undergraduate Scholarship",
+    "description": "The NNPC/SEPLAT Undergraduate Scholarship supports academically excellent Nigerian students pursuing undergraduate degrees in Nigerian universities.",
+    "benefit": "Tuition fees, accommodation, and a monthly stipend",
+    "link": "https://seplatpetroleum.com/corporate-responsibility/scholarship/"
+  },
+  {
+    "title": "MINDS Scholarship Program",
+    "description": "The MINDS Scholarship Program supports African students pursuing postgraduate studies in African institutions, focusing on leadership development and community service.",
+    "benefit": "Tuition fees, accommodation, and a stipend for living expenses",
+    "link": "https://minds-africa.org/scholarship-program/"
+  },
+  {
+    "title": "African Institute for Mathematical Sciences (AIMS) Scholarship Program",
+    "description": "The AIMS Scholarship Program offers scholarships to African students pursuing postgraduate studies in mathematical sciences at AIMS centers across Africa.",
+    "benefit": "Tuition fees, accommodation, meals, and a stipend for living expenses",
+    "link": "https://www.nexteinstein.org/programs/scholarships/"
+  },
+  {
+    "title": "Pan African University (PAU) Scholarship Program",
+    "description": "The Pan African University (PAU) Scholarship Program supports African students pursuing postgraduate studies in various disciplines across PAU institutes.",
+    "benefit": "Tuition fees, accommodation, and a stipend for living expenses",
+    "link": "https://www.pau-au.net/"
+  },
+  {
+    "title": "Senator Olamilekan Yayi Scholarship Program for Undergraduate Students",
+    "description": "The Senator Olamilekan Yayi Scholarship Program provides financial assistance to undergraduate students in Nigeria.",
+    "benefit": "Tuition fees and a stipend for living expenses",
+    "link": "https://senatorolamilekanyayi.org.ng/scholarship/"
+  },
+  {
+    "title": "iLevate Tertiary Institution Scholarship",
+    "description": "The iLevate Tertiary Institution Scholarship supports students enrolled in tertiary institutions in Nigeria.",
+    "benefit": "Tuition fees and a stipend for living expenses",
+    "link": "https://www.ilevate.ng/scholarship/"
+  },
+  {
+    "title": "Abdallah Abbas Sharbatly Scholarships",
+    "description": "The Abdallah Abbas Sharbatly Scholarships offer financial support to Saudi Arabian students pursuing undergraduate or graduate studies abroad.",
+    "benefit": "Tuition fees, accommodation, and a stipend for living expenses",
+    "link": "https://www.sharbatlyfoundation.org/scholarships"
+  },
+  {
+    "title": "ELbM Scholarships",
+    "description": "The ELbM Scholarships provide funding for students from developing countries to pursue master's degrees in selected fields at universities in Germany.",
+    "benefit": "Tuition fees, accommodation, and a stipend for living expenses",
+    "link": "https://www.daad.de/en/study-and-research-in-germany/scholarships/eligibility-criteria/"
+  }
 
  
 
