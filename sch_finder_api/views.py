@@ -159,6 +159,8 @@ class SchoolApi(views.APIView):
     """
     API view to create, retrieve, update and delete school
     """
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
     @swagger_auto_schema(
         manual_parameters=[
         openapi.Parameter(
@@ -177,9 +179,6 @@ class SchoolApi(views.APIView):
     )
     def post(self, request):
         """ Create a school object """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = SchoolSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -187,22 +186,6 @@ class SchoolApi(views.APIView):
         serializer.instance = services.create_school(sch=data)
 
         return response.Response(data=serializer.data)
-
-    def get(self, request, id=None):
-        """
-        Retrieve school with id provided, or all schools if no id
-        """
-        self.authentication_classes = []
-        self.permission_classes = []
-        
-        if id is not None:
-            school = School.objects.filter(id=id)
-        else:
-            schools = School.objects.all()
-
-        serializer = SchoolSerializer(schools, many=True)
-
-        return response.Response(serializer.data)
     
     @swagger_auto_schema(
         manual_parameters=[
@@ -219,8 +202,6 @@ class SchoolApi(views.APIView):
         """ 
         Delete school with id provided
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
         try:
             school = School.objects.get(id=id)
         except School.DoesNotExist:
@@ -247,9 +228,6 @@ class SchoolApi(views.APIView):
     )
     def put(self, request, id):
         """Edit School Details"""
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = EditSchoolSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
@@ -257,11 +235,27 @@ class SchoolApi(views.APIView):
         return response.Response({"message": "Successful"})
 
 
+class GetSchoolApi(views.APIView):
+    """ View to get schools without authentication """
+    def get(self, request, id=None):
+        """
+        Retrieve school with id provided, or all schools if no id
+        """        
+        if id is not None:
+            schools = School.objects.filter(id=id)
+        else:
+            schools = School.objects.all()
+
+        serializer = SchoolSerializer(schools, many=True)
+
+        return response.Response(serializer.data)
+
 class ScholarshipApi(views.APIView):
     """
     API view to create, retrieve, update and delete scholarship objects
     """
-
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
     @swagger_auto_schema(
         manual_parameters=[
         openapi.Parameter(
@@ -282,30 +276,11 @@ class ScholarshipApi(views.APIView):
         """
         Create a new scholarship object
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = ScholarshipSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
         serializer.instance = services.create_scholarship(ship=data)
-
-        return response.Response(serializer.data)
-
-    def get(self, request, id=None):
-        """
-        Retrieve specific scholarship if id, else retrieve all scholarship objects.
-        """
-        self.authentication_classes = []
-        self.permission_classes = []
-
-        if id is not None:
-            scholarship = Scholarship.objects.filter(id=id)
-        else:
-            scholarships = Scholarship.objects.all()
-        
-        serializer = ScholarshipSerializer(scholarships, many=True)
 
         return response.Response(serializer.data)
     
@@ -324,9 +299,6 @@ class ScholarshipApi(views.APIView):
         """
         Delete a scholarship object based on id provided.
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         try:
             scholarship = Scholarship.objects.get(id=id)
         except Scholarship.DoesNotExist:
@@ -355,14 +327,26 @@ class ScholarshipApi(views.APIView):
         """
         Edit scholarship details
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = EditScholarshipSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         schship_update = services.update_scholarship(id, data)
         return response.Response({"message": "Successful"})
+
+class ScholarshipGetApi(views.APIView):
+    """ Retrieve scholarships """
+    def get(self, request, id=None):
+        """
+        Retrieve specific scholarship if id, else retrieve all scholarship objects.
+        """
+        if id is not None:
+            scholarship = Scholarship.objects.filter(id=id)
+        else:
+            scholarships = Scholarship.objects.all()
+        
+        serializer = ScholarshipSerializer(scholarships, many=True)
+
+        return response.Response(serializer.data)
 
 
 class ChangePassword(views.APIView):
@@ -405,7 +389,8 @@ class ReviewApi(views.APIView):
     """
     API view for creating, editing, retrieving and deleting a review object
     """
-
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
     @swagger_auto_schema(
         manual_parameters=[
         openapi.Parameter(
@@ -424,34 +409,16 @@ class ReviewApi(views.APIView):
     )
     def post(self, request):
         """ Create a new review object """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = ReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         data = serializer.validated_data
         school = School.objects.get(id=data.school_id)
+        print(request.user)
         serializer.instance = services.create_review(school=school, user=request.user, review=data)
 
         school.update_rating()
         return response.Response(data=serializer.data)
-
-    def get(self, request, id=None):
-        """
-        Retrieve a specific review or all reviews if id is not provided
-        """
-        self.authentication_classes = []
-        self.permission_classes = []
-
-        if id is not None:
-            reviews = Review.objects.filter(school_id=id)
-        else:
-            reviews = Review.objects.all()
-
-        serializer = ReviewSerializer(reviews, many=True)
-
-        return response.Response(serializer.data)
     
     @swagger_auto_schema(
         manual_parameters=[
@@ -474,9 +441,6 @@ class ReviewApi(views.APIView):
         Example:
         DELETE /api/reviews/12/
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         try:
             review = Review.objects.get(id=id)
         except Review.DoesNotExist:
@@ -505,20 +469,34 @@ class ReviewApi(views.APIView):
         """
         Edit a review object
         """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = EditReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         review = services.update_review(id, data)
         return response.Response({"message": "Success"})
 
+class ReviewGetApi(views.APIView):
+    """ Returns reviews """
+    def get(self, request, id=None):
+        """
+        Retrieve a specific review or all reviews if id is not provided
+        """
+        if id is not None:
+            reviews = Review.objects.filter(school_id=id)
+        else:
+            reviews = Review.objects.all()
+
+        serializer = ReviewSerializer(reviews, many=True)
+
+        return response.Response(serializer.data)
+
 
 class CountryApi(views.APIView):
     """
     API view to create and retrieve country
     """
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
     @swagger_auto_schema(
         manual_parameters=[
         openapi.Parameter(
@@ -537,9 +515,6 @@ class CountryApi(views.APIView):
     )
     def post(self, request):
         """ Create a Country object """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = CountrySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -548,11 +523,13 @@ class CountryApi(views.APIView):
 
         return response.Response(data=serializer.data)
 
+
+class GetCountryApi(views.APIView):
+    """ Retrieve countries """
     def get(self, request, id=None):
         """
         Retrieve country with id provided, or all countries if no id provided
         """
-        
         if id is not None:
             coountry = Country.objects.filter(id=id)
         else:
@@ -567,6 +544,8 @@ class CityApi(views.APIView):
     """
     API view to create and retrieve city
     """
+    authentication_classes = (authentication.CustomUserAuthentication, )
+    permission_classes = (permissions.IsAuthenticated, )
     @swagger_auto_schema(
         manual_parameters=[
         openapi.Parameter(
@@ -585,9 +564,6 @@ class CityApi(views.APIView):
     )
     def post(self, request):
         """ Create a City object """
-        authentication_classes = (authentication.CustomUserAuthentication, )
-        permission_classes = (permissions.IsAuthenticated, )
-
         serializer = CitySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -597,13 +573,13 @@ class CityApi(views.APIView):
 
         return response.Response({"message": "Successful"})
 
+
+class GetCitiesApi(views.APIView):
+    """ Retrieve cities in the database """
     def get(self, request, id=None):
         """
         Retrieve city with id provided, or all cities if no id provided
-        """
-        self.authentication_classes = []
-        self.permission_classes = []
-        
+        """        
         if id is not None:
             city = City.objects.filter(id=id)
         else:
