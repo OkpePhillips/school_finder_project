@@ -340,7 +340,7 @@ class ScholarshipGetApi(views.APIView):
         Retrieve specific scholarship if id, else retrieve all scholarship objects.
         """
         if id is not None:
-            scholarship = Scholarship.objects.filter(id=id)
+            scholarships = Scholarship.objects.filter(id=id)
         else:
             scholarships = Scholarship.objects.all()
         
