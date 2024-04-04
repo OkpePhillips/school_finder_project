@@ -204,7 +204,7 @@ def update_review(id, data):
         return review
     except Review.DoesNotExist:
         return response.Response(status=status.HTTP_404_NOT_FOUND)
-    
+
 
 @dataclasses.dataclass
 class CountryDataClass:

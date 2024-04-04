@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Whitenoise for serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',  # Session middleware
     'django.middleware.common.CommonMiddleware',  # Common middleware
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection middleware
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',  # Messages middleware
@@ -147,7 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "sch_finder_api.User"
 
 # Allow CORS for all origins
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Allow credentials to be included in CORS requests
 CORS_ALLOW_CREDENTIALS = True
