@@ -3,6 +3,7 @@ import datetime
 import jwt
 from .models import User, School, Scholarship, Review, Country, City
 from django.conf import settings
+from django.shortcuts import get_object_or_404
 
 @dataclasses.dataclass
 class UserDataClass:
@@ -81,6 +82,7 @@ class SchoolDataClass:
     city: str
     degrees: str
     website: str
+    id: int = None
 
     @classmethod
     def from_instance(cls, school:"School"):
@@ -123,16 +125,17 @@ def update_sch(id, data):
 class ScholarshipDataClass:
     title: str
     description: str
-    money: str
+    benefit: str
     link: str
     school: str
+    id: int = None
 
     @classmethod
     def from_instance(cls, ship:"Scholarship"):
         return cls(
             title=ship.title,
             description=ship.description,
-            money=ship.money,
+            benefit=ship.benefit,
             link=ship.link,
             school=ship.school
         )
@@ -141,7 +144,7 @@ def create_scholarship(ship:"ScholarshipDataClass"):
     instance = Scholarship(
         title=ship.title,
         description=ship.description,
-        money=ship.money,
+        benefit=ship.benefit,
         link=ship.link,
         school=ship.school
     )
@@ -154,7 +157,7 @@ def update_scholarship(id, data):
         schship = Scholarship.objects.get(id=id)
         schship.title = data["title"]
         schship.description = data["description"]
-        schship.money = data["money"]
+        schship.benefit = data["benefit"]
         schship.link = data["link"]
         schship.school = data["school"]
 
@@ -171,6 +174,7 @@ class ReviewDataClass:
     rating: int
     school_id: ScholarshipDataClass = None
     user_id: UserDataClass = None
+    id: int = None
 
     @classmethod
     def from_instance(cls, review:"Review"):
@@ -209,6 +213,7 @@ def update_review(id, data):
 @dataclasses.dataclass
 class CountryDataClass:
     name: str
+    id: int = None
 
     @classmethod
     def from_instance(cls, country:"Country"):
@@ -229,12 +234,13 @@ def create_country(country:"CountryDataClass"):
 class CityDataClass:
     name: str
     country: CountryDataClass
+    id: int = None
 
     @classmethod
     def from_instance(cls, city:"City"):
         return cls(
             name=city.name,
-            country=city.country
+            country=city.country.name
 
         )
 
@@ -246,3 +252,9 @@ def create_city(country, city:"CityDataClass"):
     instance.save()
 
     return CityDataClass.from_instance(instance)
+
+def process_city_data(data):
+    country_name = data.get('country')
+    country = get_object_or_404(Country, name=country_name)
+    data['country'] = country
+    return data

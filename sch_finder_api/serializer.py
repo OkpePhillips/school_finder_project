@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import services
-from .models import User, School
+from .models import User, School, Country
 
 
 class UserSerializer(serializers.Serializer):
@@ -57,7 +57,7 @@ class ScholarshipSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
     description = serializers.CharField()
-    money = serializers.CharField()
+    benefit = serializers.CharField()
     link = serializers.CharField()
     school = serializers.CharField()
 
@@ -69,7 +69,7 @@ class ScholarshipSerializer(serializers.Serializer):
 class EditScholarshipSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
-    money = serializers.CharField()
+    benefit = serializers.CharField()
     link = serializers.CharField()
     school = serializers.CharField()
 
@@ -102,6 +102,7 @@ class EditReviewSerializer(serializers.Serializer):
 
 
 class CountrySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
 
     def to_internal_value(self, data):
@@ -111,8 +112,10 @@ class CountrySerializer(serializers.Serializer):
 
 
 class CitySerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
-    country = serializers.CharField()
+    country = serializers.SlugRelatedField(slug_field='name', queryset=Country.objects.all())
+
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)

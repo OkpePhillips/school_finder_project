@@ -80,7 +80,7 @@ class School(models.Model):
 class Scholarship(models.Model):
     title = models.CharField(verbose_name="Title", max_length=255, unique=True)
     description = models.TextField(verbose_name="Description", max_length=3000)
-    money = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
+    bnefit = models.CharField(verbose_name="Scholarship Benefits", max_length=255)
     link = models.CharField(verbose_name="Link to apply", max_length=255)
     school = models.ForeignKey('School', verbose_name="School", on_delete=models.CASCADE)
 

@@ -53,10 +53,17 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',  # Session middleware
     'django.middleware.common.CommonMiddleware',  # Common middleware
     'django.middleware.csrf.CsrfViewMiddleware',  # CSRF protection middleware
-    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Authentication middleware
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',  # Messages middleware
     'django.middleware.clickjacking.XFrameOptionsMiddleware',  # Clickjacking protection
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ]
+}
 
 ROOT_URLCONF = 'sch_finder.urls'
 
