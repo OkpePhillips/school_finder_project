@@ -127,7 +127,6 @@ class ScholarshipDataClass:
     description: str
     benefit: str
     link: str
-    school: str
     id: int = None
 
     @classmethod
@@ -136,8 +135,7 @@ class ScholarshipDataClass:
             title=ship.title,
             description=ship.description,
             benefit=ship.benefit,
-            link=ship.link,
-            school=ship.school
+            link=ship.link
         )
 
 def create_scholarship(ship:"ScholarshipDataClass"):
@@ -145,8 +143,7 @@ def create_scholarship(ship:"ScholarshipDataClass"):
         title=ship.title,
         description=ship.description,
         benefit=ship.benefit,
-        link=ship.link,
-        school=ship.school
+        link=ship.link
     )
     instance.save()
 
@@ -159,7 +156,6 @@ def update_scholarship(id, data):
         schship.description = data["description"]
         schship.benefit = data["benefit"]
         schship.link = data["link"]
-        schship.school = data["school"]
 
         schship.save()
 
@@ -252,9 +248,3 @@ def create_city(country, city:"CityDataClass"):
     instance.save()
 
     return CityDataClass.from_instance(instance)
-
-def process_city_data(data):
-    country_name = data.get('country')
-    country = get_object_or_404(Country, name=country_name)
-    data['country'] = country
-    return data

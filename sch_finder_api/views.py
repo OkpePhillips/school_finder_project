@@ -291,7 +291,7 @@ class ScholarshipApi(views.APIView):
         data = serializer.validated_data
         serializer.instance = services.create_scholarship(ship=data)
 
-        return response.Response(data=serializer.data)
+        return response.Response(serializer.data)
 
     def get(self, request, id=None):
         """
