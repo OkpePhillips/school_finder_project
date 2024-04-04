@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import services
-from .models import User, School, Country
+from .models import User, School, Country, City
 
 
 class UserSerializer(serializers.Serializer):
@@ -34,8 +34,8 @@ class UserEditSerializer(serializers.Serializer):
 class SchoolSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField()
-    country_id = serializers.StringRelatedField()
-    city_id = country = serializers.StringRelatedField()
+    country = serializers.SlugRelatedField(slug_field='name', queryset=Country.objects.all())
+    city = serializers.SlugRelatedField(slug_field='name', queryset=City.objects.all())
     degrees = serializers.CharField()
     website = serializers.CharField()
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, read_only=True)
@@ -59,7 +59,6 @@ class ScholarshipSerializer(serializers.Serializer):
     description = serializers.CharField()
     benefit = serializers.CharField()
     link = serializers.CharField()
-    school = serializers.CharField()
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)
@@ -71,7 +70,6 @@ class EditScholarshipSerializer(serializers.Serializer):
     description = serializers.CharField()
     benefit = serializers.CharField()
     link = serializers.CharField()
-    school = serializers.CharField()
 
 
 class ChangePasswordSerializer(serializers.Serializer):

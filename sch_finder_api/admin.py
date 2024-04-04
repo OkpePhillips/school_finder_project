@@ -34,7 +34,7 @@ class ScholarshipAdmin(admin.ModelAdmin):
         "title",
         "description",
         "link",
-        "school"
+        "benefit"
     )
 admin.site.register(models.Scholarship, ScholarshipAdmin)
 
