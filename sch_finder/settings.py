@@ -147,7 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "sch_finder_api.User"
 
 # Allow CORS for all origins
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 
 # Allow credentials to be included in CORS requests
 CORS_ALLOW_CREDENTIALS = True
