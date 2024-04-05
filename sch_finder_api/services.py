@@ -82,6 +82,7 @@ class SchoolDataClass:
     city: str
     degrees: str
     website: str
+    image: str
     id: int = None
 
     @classmethod
@@ -91,7 +92,8 @@ class SchoolDataClass:
             country=school.country,
             city=school.city,
             degrees=school.degrees,
-            website=school.website
+            website=school.website,
+            image=school.image
         )
 
 def create_school(sch:"SchoolDataClass"):
@@ -100,7 +102,8 @@ def create_school(sch:"SchoolDataClass"):
         country=sch.country,
         city=sch.city,
         degrees=sch.degrees,
-        website=sch.website
+        website=sch.website,
+        image=sch.image
     )
     instance.save()
 
@@ -114,6 +117,7 @@ def update_sch(id, data):
         school.city = data["city"]
         school.degrees = data["degrees"]
         school.website = data["website"]
+        school.image = data["image"]
 
         school.save()
 

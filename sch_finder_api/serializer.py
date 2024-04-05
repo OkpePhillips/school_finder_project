@@ -39,6 +39,7 @@ class SchoolSerializer(serializers.Serializer):
     degrees = serializers.CharField()
     website = serializers.CharField()
     rating = serializers.DecimalField(max_digits=2, decimal_places=1, read_only=True)
+    image = serializers.ImageField()
 
     def to_internal_value(self, data):
         data =super().to_internal_value(data)
@@ -51,6 +52,7 @@ class EditSchoolSerializer(serializers.Serializer):
     city = serializers.CharField()
     degrees = serializers.CharField()
     website = serializers.CharField()
+    image = serializers.ImageField()
 
 
 class ScholarshipSerializer(serializers.Serializer):

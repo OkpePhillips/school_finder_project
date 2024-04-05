@@ -177,6 +177,7 @@ class SchoolApi(views.APIView):
             400: "Bad Request",
         },
         request_body=SchoolSerializer,
+        consumes=['multipart/form-data'],
     )
     def post(self, request):
         """ Create a school object """
@@ -622,6 +623,21 @@ class SearchApi(views.APIView):
         else:
             raise ValueError("Invalid instance type")
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='search',
+                in_=openapi.IN_QUERY,
+                type=openapi.TYPE_STRING,
+                description='Search query string',
+                required=True,
+            ),
+        ],
+        responses={
+            200: "Success",
+            400: "Bad Request",
+        },
+    )
     def get(self, request):
         queryset = self.get_queryset()
         serialized_data = []
