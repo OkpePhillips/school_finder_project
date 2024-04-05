@@ -53,5 +53,6 @@ urlpatterns = [
     path("city/", views.CityApi.as_view(), name="create_city"),
     path("cities/", views.GetCitiesApi.as_view(), name="get_city"),
     path("city/<int:id>/", views.GetCitiesApi.as_view(), name="get_city"),
+    path("search/", views.SearchApi.as_view(), name="search"),
 ]
 
