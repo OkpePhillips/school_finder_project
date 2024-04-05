@@ -1,8 +1,9 @@
-from rest_framework import views, response, exceptions, permissions, status
+from rest_framework import views, response, exceptions, permissions, status, filters
 
 from .serializer import UserSerializer, UserEditSerializer, SchoolSerializer, EditSchoolSerializer, ScholarshipSerializer, EditScholarshipSerializer, ChangePasswordSerializer, ReviewSerializer, EditReviewSerializer, CountrySerializer, CitySerializer
 from . import services, authentication
 from .models import School, Scholarship, Review, Country, City
+from django.db.models import Q
 
 #API Documentation imports
 from drf_yasg import openapi
@@ -588,3 +589,44 @@ class GetCitiesApi(views.APIView):
         serializer = CitySerializer(city, many=True)
 
         return response.Response(serializer.data)
+
+
+class SearchApi(views.APIView):
+    filter_backends = [filters.SearchFilter]
+    search_fields = {
+        School: ['name', 'degrees'],
+        City: ['name'],
+        Scholarship: ['title', 'description', 'benefit'],
+        Country: ['name'],
+    }
+
+    def get_queryset(self):
+        query = self.request.query_params.get('search', '')
+        queryset = []
+
+        for model, fields in self.search_fields.items():
+            for field in fields:
+                queryset.extend(model.objects.filter(Q(**{f'{field}__icontains': query})))
+        return queryset
+
+    def get_serializer_class(self, instance):
+        """ Get appropriate serializer class based on model instance """
+        if isinstance(instance, School):
+            return SchoolSerializer
+        elif isinstance(instance, City):
+            return CitySerializer
+        elif isinstance(instance, Scholarship):
+            return ScholarshipSerializer
+        elif isinstance(instance, Country):
+            return CountrySerializer
+        else:
+            raise ValueError("Invalid instance type")
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        serialized_data = []
+        for obj in queryset:
+            serializer_class = self.get_serializer_class(obj)
+            serializer = serializer_class(obj)
+            serialized_data.append(serializer.data)
+        return response.Response(serialized_data)
