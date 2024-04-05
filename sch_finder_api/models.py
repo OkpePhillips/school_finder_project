@@ -67,6 +67,7 @@ class School(models.Model):
         default=0,
         editable=False
     )
+    image = models.ImageField(verbose_name="School Image", upload_to="school_images/", null=True, blank=True)
 
     def update_rating(self):
         reviews = self.review_set.all()

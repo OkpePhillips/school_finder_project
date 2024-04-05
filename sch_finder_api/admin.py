@@ -24,7 +24,8 @@ class SchoolAdmin(admin.ModelAdmin):
         "city",
         "degrees",
         "website",
-        "rating"
+        "rating",
+        "image",
     )
 admin.site.register(models.School, SchoolAdmin)
 
